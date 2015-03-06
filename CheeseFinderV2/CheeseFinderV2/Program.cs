@@ -152,9 +152,16 @@ namespace CheeseFinderV2
             //by putting true in the ReadKey, you doesn't show the character its self
             ConsoleKeyInfo userInput = Console.ReadKey(true);
             //checking if only arrow key was pressed and if it's a valid move
-            while (userInput.Key != ConsoleKey.LeftArrow && userInput.Key != ConsoleKey.RightArrow && userInput.Key != ConsoleKey.UpArrow && userInput.Key != ConsoleKey.DownArrow || !ValidMove(userInput.Key))
+            while (userInput.Key != ConsoleKey.LeftArrow && userInput.Key != ConsoleKey.RightArrow && userInput.Key != ConsoleKey.UpArrow && userInput.Key != ConsoleKey.DownArrow || !this.ValidMove(userInput.Key))
             {
-                Console.WriteLine("Invalid input");
+                if (!this.ValidMove(userInput.Key))
+                {
+                    Console.WriteLine("Move is not valid - out of range");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input");
+                }
                 userInput = Console.ReadKey(true);
             }
             return userInput.Key;
@@ -250,14 +257,14 @@ namespace CheeseFinderV2
                 {
                     MoveCat(cat);
                 }
+                //checking if mouse was caught by a cat
+                playing = this.Mouse.HasBeenPouncedOn;
                 //checking if a mouse has any energy left
                 if (this.Mouse.Energy < 0)
                 {
                     //if it doensn't then stops the game
-                   playing = true;
+                    playing = true;
                 }
-                //checking if mouse was caught by a cat
-                playing = this.Mouse.HasBeenPouncedOn;
             }
             //printing out a message depending of a scenario
             if (this.Mouse.Energy < 0)
